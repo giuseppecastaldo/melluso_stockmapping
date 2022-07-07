@@ -11,7 +11,7 @@ import {
     SET_CURRENT_AREA,
     SET_CURRENT_BARCODE,
     SET_ROWS_SELECTION,
-    SET_SELECTED_WAREHOUSE, SNACKBAR
+    SET_SELECTED_WAREHOUSE, setSelectedWarehouse, SNACKBAR
 } from "./actions";
 
 const columns = [
@@ -110,7 +110,7 @@ export default handleActions({
             }
         }
     },
-    [SET_SELECTED_WAREHOUSE]: {
+    SET_SELECTED_WAREHOUSE: {
         next(state, action) {
             console.log(state);
             return {
@@ -261,4 +261,3 @@ export default handleActions({
         timeout: 0
     }
 });
-

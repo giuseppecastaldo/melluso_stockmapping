@@ -1,7 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import Sound from "react-sound";
-import {playStopBeep, playStopBeepError} from "../../actions";
+import {getActions} from "../../../core";
+
+const moduleName = 'mapping_management'
 
 function SoundFeedback({ beep, beepError, playStopBeep, playStopBeepError }) {
     return (
@@ -22,4 +24,4 @@ function SoundFeedback({ beep, beepError, playStopBeep, playStopBeepError }) {
     );
 }
 
-export default connect(state => state, { playStopBeep, playStopBeepError })(SoundFeedback);
+export default connect(state => state[moduleName])(SoundFeedback);

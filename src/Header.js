@@ -6,11 +6,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import OutboxIcon from '@mui/icons-material/Outbox';
 import Box from "@mui/material/Box";
 import {connect} from "react-redux";
-import {discardSaves, sendDataToServer, setSnackbar} from "./actions";
 import {Snackbar} from "@mui/material";
 import {Alert} from "@mui/lab";
 
-function Header({ sendDataToServer, discardSaves, snackbar, setSnackbar }) {
+const moduleName = 'mapping_management';
+
+function Header({ snackbar, setSnackbar, discardSaves }) {
     function returnToWebsite() {
         window.location.href = "/";
     }
@@ -47,11 +48,11 @@ function Header({ sendDataToServer, discardSaves, snackbar, setSnackbar }) {
                         <img src={'./melluso_logo.png'} height="30" alt="MellusoStock"/>
                     </Box>
                     <IconButton
+                        onClick={discardSaves}
                         size="large"
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
-                        onClick={sendDataToServer}
                         color="inherit"
                     >
                         <OutboxIcon/>
@@ -62,5 +63,5 @@ function Header({ sendDataToServer, discardSaves, snackbar, setSnackbar }) {
     );
 }
 
-export default connect(state => state, { sendDataToServer, discardSaves, setSnackbar })(Header);
+export default connect(state => state[moduleName])(Header);
 

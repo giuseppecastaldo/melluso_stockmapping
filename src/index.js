@@ -5,11 +5,11 @@ import './index.css'
 import {createTheme, ThemeProvider} from "@mui/material";
 import {Provider} from 'react-redux'
 import {applyMiddleware, createStore} from 'redux';
-import reducer from "./reducer";
 import logger from 'redux-logger'
 import promiseMiddleware from 'redux-promise';
+import {getReducer} from "./core";
 
-const store = createStore(reducer, applyMiddleware(logger, promiseMiddleware));
+const store = createStore(getReducer(), applyMiddleware(logger, promiseMiddleware));
 
 const theme = createTheme({
     palette: {

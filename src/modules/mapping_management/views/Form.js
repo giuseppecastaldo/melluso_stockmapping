@@ -1,12 +1,14 @@
 import * as React from 'react';
 import {FormControl, MenuItem, Select, TextField} from "@mui/material";
 import {connect} from "react-redux";
-import {addProductByBarcode, setCurrentArea, setCurrentBarcode, setSelectedWarehouse} from "../../actions";
 import {Autocomplete} from "@mui/lab";
 import SoundFeedback from "./SoundFeedback";
+import {getActions} from "../../../core";
 
-function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves }) {
-    const [barcodeFocus, setBarcodeFocus] = React.useState(false);
+const moduleName = 'mapping_management';
+
+function Form({ selectedWarehouse, test, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves }) {
+
 
     function handleChangedArea(e, value) {
         setCurrentArea(value)
@@ -16,7 +18,6 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
         const area = areas.find((area) => area.code === e.target.value)
         if (area) {
             setCurrentArea(`${area.rack} - ${area.zone} - ${area.side}`);
-            setBarcodeFocus(true);
         }
     }
 
@@ -57,7 +58,6 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
                 </Select>
                 <Autocomplete
                     fullWidth
-                    autoFocus={true}
                     options={areas}
                     value={currentArea}
                     disabled={!canEnterArea || pendingSaves}
@@ -66,7 +66,6 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
                     renderInput={(params) => <TextField onChange={handleBarcodeArea} variant="filled" {...params} label="Area" />}
                 />
                 <TextField fullWidth
-                           autoFocus={barcodeFocus}
                            label="Barcode"
                            disabled={!canEnterBarcode}
                            value={currentBarcode}
@@ -79,4 +78,6 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
     );
 }
 
-export default connect(state => state, { setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, setCurrentArea })(Form)
+export default connect(state => state[moduleName], {
+    setSelectedWarehouse: getActions(moduleName).setSelectedWarehouse
+})(Form)

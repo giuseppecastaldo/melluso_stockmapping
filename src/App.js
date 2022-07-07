@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Header from "./Header";
-import ProductsMapping from "./mapping/views/ProductMapping";
 import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import {useEffect} from "react";
 import {db} from "./db";
+import {getModules} from "./core";
 
 export default function App() {
-    const [currentPage, setCurrentPage] = React.useState('1');
+    const [currentPage, setCurrentPage] = React.useState(getModules()[0].manifest.moduleName);
 
     useEffect(() => {
         db.barcodes.add({
@@ -29,17 +29,10 @@ export default function App() {
             <Header/>
             <TabContext value={currentPage}>
                 <TabList onChange={handleChangePage} variant="scrollable" >
-                    <Tab label="Prodotti" value="1"/>
-                    <Tab label="Aree" value="2"/>
-                    <Tab label="Barcodes" value="3"/>
+                    {getModules().map((module) => <Tab key={module.manifest.moduleName} label={module.manifest.friendlyName} value={module.manifest.moduleName}/>)}
                 </TabList>
-                <TabPanel value="1">
-                    <ProductsMapping/>
-                </TabPanel>
-                <TabPanel value="2">
-                </TabPanel>
-                <TabPanel value="3">
-                </TabPanel>
+
+                {getModules().map((module) => <TabPanel key={module.manifest.moduleName} value={module.manifest.moduleName}>{module.manifest.mainView}</TabPanel>)}
             </TabContext>
         </>
     );
