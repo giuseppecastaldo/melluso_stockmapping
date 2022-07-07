@@ -1,7 +1,8 @@
 import {createActions, handleActions} from "redux-actions";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import logger from "redux-logger";
-import promiseMiddleware from "redux-promise";
+import promise from 'redux-promise-middleware'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const moduleList = [
     'mapping_management',
@@ -77,4 +78,20 @@ const asyncDispatchMiddleware = store => next => action => {
     return res;
 };
 
-export const store = createStore(getReducer(), applyMiddleware(logger, promiseMiddleware, asyncDispatchMiddleware));
+const loadingStateMiddleware = store => next => action => {
+    if(action.type.includes('PENDING')) {
+        store.dispatch(getActions('app').setLoading(true))
+    }
+
+    if(action.type.includes('FULFILLED')) {
+        store.dispatch(getActions('app').setLoading(false))
+    }
+
+    if(action.type.includes('REJECTED')) {
+        store.dispatch(getActions('app').setLoading(false))
+    }
+
+    next(action);
+}
+
+export const store = createStore(getReducer(), composeWithDevTools(applyMiddleware(logger, promise, loadingStateMiddleware, asyncDispatchMiddleware)));

@@ -15,7 +15,7 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
     function handleBarcodeArea(e) {
         const area = areas.find((area) => area.code === e.target.value)
         if (area) {
-            setCurrentArea(`${area.rack} - ${area.zone} - ${area.side}`);
+            setCurrentArea(area);
         }
     }
 
@@ -80,5 +80,5 @@ export default connect(state => state[moduleName], {
     setSelectedWarehouse: getActions(moduleName).setSelectedWarehouse,
     addProductByBarcode: getActions(moduleName).addProductByBarcode,
     setCurrentBarcode: getActions(moduleName).setCurrentBarcode,
-    setCurrentArea: getActions(moduleName).setCurrentArea
+    setCurrentArea: getActions(moduleName).setCurrentArea,
 })(Form)

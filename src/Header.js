@@ -32,7 +32,7 @@ function Header({ snackbar, setSnackbar, discardSaves }) {
             </Snackbar>
 
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar variant="dense">
                     <IconButton
                         size="large"
                         edge="start"

@@ -13,9 +13,18 @@ export default function () {
                         }
                     }
                 }
+            },
+            setLoading: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        loading: action.payload
+                    }
+                }
             }
         },
         defaultState: {
+            loading: false,
             snackbar: {
                 severity: 'success',
                 open: false,

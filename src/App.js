@@ -5,8 +5,11 @@ import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import {getModules} from "./core";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import {connect} from "react-redux";
 
-export default function App() {
+function App({ loading }) {
     const [currentPage, setCurrentPage] = React.useState(getModules()[0].manifest.moduleName);
 
     function handleChangePage(event, newValue) {
@@ -15,6 +18,9 @@ export default function App() {
 
     return (
         <>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={ loading }>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <Header/>
             <TabContext value={currentPage}>
                 <TabList onChange={handleChangePage} variant="scrollable" >
@@ -26,3 +32,5 @@ export default function App() {
         </>
     );
 }
+
+export default connect( state => state['app'])(App)

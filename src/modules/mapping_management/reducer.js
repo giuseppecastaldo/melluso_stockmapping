@@ -114,7 +114,7 @@ export default function () {
                     }
                 }
             },
-            addProductByBarcode: {
+            addProductByBarcode_FULFILLED: {
                 next(state, action) {
                     if (action.payload) {
                         action.asyncDispatch(getActions('app').setSnackbar({

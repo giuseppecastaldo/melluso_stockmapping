@@ -1,5 +1,6 @@
 export default function () {
     return {
-        setSnackbar: (payload) => payload
+        setSnackbar: (payload) => payload,
+        setLoading: (payload) => payload
     }
 }
