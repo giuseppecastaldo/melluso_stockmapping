@@ -24,4 +24,7 @@ function SoundFeedback({ beep, beepError, playStopBeep, playStopBeepError }) {
     );
 }
 
-export default connect(state => state[moduleName])(SoundFeedback);
+export default connect(state => state[moduleName], {
+    playStopBeep: getActions(moduleName).playStopBeep,
+    playStopBeepError: getActions(moduleName).playStopBeepError
+})(SoundFeedback);

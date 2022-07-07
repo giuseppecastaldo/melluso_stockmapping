@@ -1,5 +1,6 @@
-export default {
-    moduleName: 'areas_management',
-    friendlyName: 'Gestione aree',
-    mainView: <div/>
+export default function() {
+    return {
+        moduleName: 'areas_management',
+        friendlyName: 'Gestione aree',
+    }
 }

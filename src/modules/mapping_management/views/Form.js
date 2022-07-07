@@ -1,15 +1,13 @@
 import * as React from 'react';
 import {FormControl, MenuItem, Select, TextField} from "@mui/material";
 import {connect} from "react-redux";
-import {Autocomplete} from "@mui/lab";
+import { Autocomplete } from '@mui/material';
 import SoundFeedback from "./SoundFeedback";
 import {getActions} from "../../../core";
 
 const moduleName = 'mapping_management';
 
-function Form({ selectedWarehouse, test, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves }) {
-
-
+function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves }) {
     function handleChangedArea(e, value) {
         setCurrentArea(value)
     }
@@ -79,5 +77,8 @@ function Form({ selectedWarehouse, test, setSelectedWarehouse, addProductByBarco
 }
 
 export default connect(state => state[moduleName], {
-    setSelectedWarehouse: getActions(moduleName).setSelectedWarehouse
+    setSelectedWarehouse: getActions(moduleName).setSelectedWarehouse,
+    addProductByBarcode: getActions(moduleName).addProductByBarcode,
+    setCurrentBarcode: getActions(moduleName).setCurrentBarcode,
+    setCurrentArea: getActions(moduleName).setCurrentArea
 })(Form)

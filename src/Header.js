@@ -8,8 +8,7 @@ import Box from "@mui/material/Box";
 import {connect} from "react-redux";
 import {Snackbar} from "@mui/material";
 import {Alert} from "@mui/lab";
-
-const moduleName = 'mapping_management';
+import {getActions} from "./core";
 
 function Header({ snackbar, setSnackbar, discardSaves }) {
     function returnToWebsite() {
@@ -24,7 +23,7 @@ function Header({ snackbar, setSnackbar, discardSaves }) {
                     horizontal: "center"
                 }}
                 open={snackbar.open}
-                autoHideDuration={500}
+                autoHideDuration={parseInt(snackbar.timeout)}
                 onClose={() => setSnackbar(false)}
             >
                 <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
@@ -47,21 +46,20 @@ function Header({ snackbar, setSnackbar, discardSaves }) {
                     <Box component="div" sx={{flexGrow: 1, textAlign: 'center'}}>
                         <img src={'./melluso_logo.png'} height="30" alt="MellusoStock"/>
                     </Box>
-                    <IconButton
-                        onClick={discardSaves}
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        color="inherit"
-                    >
-                        <OutboxIcon/>
-                    </IconButton>
+                    <Box sx={{ width: '48px' }}/>
                 </Toolbar>
             </AppBar>
         </>
     );
 }
 
-export default connect(state => state[moduleName])(Header);
+export default connect((state) => {
+    return {
+        snackbar: state['app'].snackbar,
+        discardSaves: state['mapping_management'].discardSaves
+    }
+}, {
+    discardSaves: getActions('mapping_management').discardSaves,
+    setSnackbar: getActions('app').setSnackbar
+})(Header);
 

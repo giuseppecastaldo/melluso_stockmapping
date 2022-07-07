@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {connect} from "react-redux";
+import {getActions} from "../../../core";
 
 function Table({rows, columns, selection, setRowsSelection, incrementQty, decrementQty, deleteSelectedRows}) {
     function CustomToolbar() {
@@ -60,11 +61,9 @@ function Table({rows, columns, selection, setRowsSelection, incrementQty, decrem
     );
 }
 
-const moduleName = 'mapping_management';
-
-export default connect((state) => {
-    return {
-        ...state[moduleName],
-        ...state
-    }
+export default connect(state => state['mapping_management'], {
+    setRowsSelection: getActions('mapping_management').setRowsSelection,
+    incrementQty: getActions('mapping_management').incrementQty,
+    decrementQty: getActions('mapping_management').decrementQty,
+    deleteSelectedRows: getActions('mapping_management').deleteSelectedRows
 })(Table)

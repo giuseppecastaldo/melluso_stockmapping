@@ -1,6 +1,6 @@
-
-export default module = {
-    moduleName: 'barcodes_management',
-    friendlyName: 'Gestione barcodes',
-    mainView: <div/>
+export default function() {
+    return {
+        moduleName: 'barcodes_management',
+        friendlyName: 'Gestione barcodes',
+    }
 }
