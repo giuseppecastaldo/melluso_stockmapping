@@ -8,27 +8,6 @@ const columns = [
     {field: 'qty', headerName: 'Q.tà', flex: 1},
 ];
 
-function createData(id, product, variation, size, qty) {
-    return {id, product, variation, size, qty};
-}
-
-const rows_ = [
-    createData('0000016785762', 'K58000', '211216', '38', 1),
-    createData('0000103113639', 'K58001', '211218', '39', 1),
-    createData('0000103113676', 'K58002', '211219', '40', 1),
-    createData('0000104000593', 'K58003', '211220', '37', 1),
-    createData('0000104100057', 'K58004', '211221', '38', 1),
-    createData('0000105106720', 'K58005', '211222', 'XL', 1),
-    createData('0000105995065', 'K58006', '211223', 'L', 1),
-    createData('0000016785767', 'K58000', '211216', '38', 1),
-    createData('0000103113638', 'K58001', '211218', '39', 1),
-    createData('0000103113679', 'K58002', '211219', '40', 1),
-    createData('00001040005910', 'K58003', '211220', '37', 1),
-    createData('00001041000511', 'K58004', '211221', '38', 1),
-    createData('00001051067212', 'K58005', '211222', 'XL', 1),
-    createData('00001059950613', 'K58006', '211223', 'L', 1),
-];
-
 const warehouses = [
     {
         code: '001',
@@ -216,7 +195,7 @@ export default function () {
         },
         defaultState: {
             columns: columns,
-            rows: rows_,
+            rows: [],
             selection: [],
             selectedWarehouse: "",
             currentBarcode: '000000000000',

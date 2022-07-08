@@ -1,13 +1,12 @@
 import {createActions, handleActions} from "redux-actions";
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import logger from "redux-logger";
 import promise from 'redux-promise-middleware'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const moduleList = [
     'mapping_management',
-    'barcodes_management',
-    'areas_management'
+    'areas_management',
+    'barcodes_management'
 ]
 
 export function getModules() {
@@ -89,9 +88,20 @@ const loadingStateMiddleware = store => next => action => {
 
     if(action.type.includes('REJECTED')) {
         store.dispatch(getActions('app').setLoading(false))
+        store.dispatch(getActions('app').setSnackbar({
+            severity: 'error',
+            open: true,
+            message: `Ops! Qualcosa è andato storto... riprova.`,
+            timeout: 2000
+        }))
     }
 
     next(action);
 }
 
-export const store = createStore(getReducer(), composeWithDevTools(applyMiddleware(logger, promise, loadingStateMiddleware, asyncDispatchMiddleware)));
+const completeStateMiddleware = store => next => action => {
+    const actionWithCompleteState = Object.assign({}, action, { completeState : store.getState() });
+    next(actionWithCompleteState)
+}
+
+export const store = createStore(getReducer(), composeWithDevTools(applyMiddleware(promise, loadingStateMiddleware, completeStateMiddleware, asyncDispatchMiddleware)));
