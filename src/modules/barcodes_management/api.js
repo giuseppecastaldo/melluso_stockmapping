@@ -1,9 +1,9 @@
-import axios from "axios";
+import {api} from "../../core";
 
 export async function getBarcodes(seasons) {
-    return (await axios.post('http://localhost:8083/api/barcodes', seasons )).data
+    return (await api.post('http://localhost:8083/api/barcodes', seasons )).data
 }
 
 export async function getSeasons() {
-    return (await axios.get('http://localhost:8083/api/barcodes/seasons')).data
+    return (await api.get('http://localhost:8083/api/barcodes/seasons')).data
 }

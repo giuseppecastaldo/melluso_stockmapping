@@ -2,6 +2,7 @@ import {createActions, handleActions} from "redux-actions";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import promise from 'redux-promise-middleware'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import axios from "axios";
 
 const moduleList = [
     'mapping_management',
@@ -104,4 +105,13 @@ const completeStateMiddleware = store => next => action => {
     next(actionWithCompleteState)
 }
 
-export const store = createStore(getReducer(), composeWithDevTools(applyMiddleware(promise, loadingStateMiddleware, completeStateMiddleware, asyncDispatchMiddleware)));
+export const getCookieValue = (name) => (document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || '')
+
+export const api = axios.create({headers: { 'Authorization': getCookieValue('jwt_token')}});
+
+const persistedState = localStorage.getItem('appState') ? JSON.parse(localStorage.getItem('appState')) : {}
+export const store = createStore(getReducer(), persistedState, composeWithDevTools(applyMiddleware(promise, loadingStateMiddleware, completeStateMiddleware, asyncDispatchMiddleware)));
+
+store.subscribe(() => {
+    localStorage.setItem('appState', JSON.stringify(store.getState()))
+})

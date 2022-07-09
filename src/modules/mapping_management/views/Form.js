@@ -4,10 +4,13 @@ import {connect} from "react-redux";
 import { Autocomplete } from '@mui/material';
 import SoundFeedback from "./SoundFeedback";
 import {getActions} from "../../../core";
+import {useFetching} from "../../../commons/hooks";
 
 const moduleName = 'mapping_management';
 
-function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves }) {
+function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses }) {
+    useFetching(getWarehouses)
+
     function handleChangedArea(e, value) {
         setCurrentArea(value)
     }
@@ -59,6 +62,7 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
                     options={areas}
                     value={currentArea}
                     disabled={!canEnterArea || pendingSaves}
+                    isOptionEqualToValue={(option, value) => option.code === value}
                     onChange={handleChangedArea}
                     style={{ marginBottom: '20px'}}
                     renderInput={(params) => <TextField onChange={handleBarcodeArea} variant="filled" {...params} label="Area" />}
@@ -81,4 +85,5 @@ export default connect(state => state[moduleName], {
     addProductByBarcode: getActions(moduleName).addProductByBarcode,
     setCurrentBarcode: getActions(moduleName).setCurrentBarcode,
     setCurrentArea: getActions(moduleName).setCurrentArea,
+    getWarehouses: getActions(moduleName).getWarehouses
 })(Form)

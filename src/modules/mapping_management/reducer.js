@@ -8,17 +8,6 @@ const columns = [
     {field: 'qty', headerName: 'Q.tà', flex: 1},
 ];
 
-const warehouses = [
-    {
-        code: '001',
-        description: 'Store WEB Melluso'
-    },
-    {
-        code: '008',
-        description: 'Centro commerciale Campania'
-    }
-];
-
 const areas = [
     {
         code: 'B-1-A',
@@ -45,6 +34,14 @@ export default function () {
                         ...state,
                         selection: action.payload
                     }
+                }
+            },
+            getWarehouses_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        warehouses: action.payload
+                    };
                 }
             },
             incrementQty: {
@@ -198,12 +195,12 @@ export default function () {
             rows: [],
             selection: [],
             selectedWarehouse: "",
-            currentBarcode: '000000000000',
+            currentBarcode: '',
             currentArea: '',
             canEnterArea: false,
             canEnterBarcode: false,
             areas: areas,
-            warehouses: warehouses,
+            warehouses: [],
             pendingSaves: false,
             beep: 'STOPPED',
             beepError: 'STOPPED'

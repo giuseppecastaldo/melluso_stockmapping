@@ -21,6 +21,14 @@ export default function () {
                         loading: action.payload
                     }
                 }
+            },
+            setTab: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        currentTab: action.payload
+                    }
+                }
             }
         },
         defaultState: {
@@ -30,7 +38,8 @@ export default function () {
                 open: false,
                 message: '',
                 timeout: 0
-            }
-        }
+            },
+            currentTab: 'mapping_management'
+        },
     }
 }

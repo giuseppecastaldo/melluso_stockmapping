@@ -1,4 +1,5 @@
 import {db} from "../../db";
+import {getWarehouses} from "./api";
 
 export default function () {
     return {
@@ -12,6 +13,7 @@ export default function () {
         deleteSelectedRows: (payload) => payload,
         playStopBeep: (payload) => payload,
         playStopBeepError: (payload) => payload,
-        addProductByBarcode: barcode => db.barcodes.get(barcode)
+        addProductByBarcode: barcode => db.barcodes.get(barcode),
+        getWarehouses: () => getWarehouses()
     }
 }

@@ -49,6 +49,7 @@ function Table({rows, columns, selection, setRowsSelection, incrementQty, decrem
                       density="compact"
                       rows={rows}
                       checkboxSelection={true}
+                      selectionModel={selection}
                       onSelectionModelChange={(ids) => {
                           setRowsSelection(ids);
                       }}
