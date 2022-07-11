@@ -1,5 +1,6 @@
 import {db} from "../../db";
 import {getWarehouses} from "./api";
+import {getAreas} from "../areas_management/api";
 
 export default function () {
     return {
@@ -14,6 +15,7 @@ export default function () {
         playStopBeep: (payload) => payload,
         playStopBeepError: (payload) => payload,
         addProductByBarcode: barcode => db.barcodes.get(barcode),
-        getWarehouses: () => getWarehouses()
+        getWarehouses: () => getWarehouses(),
+        getAreas: (store) => getAreas(store)
     }
 }

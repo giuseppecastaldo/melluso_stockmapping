@@ -8,23 +8,6 @@ const columns = [
     {field: 'qty', headerName: 'Q.tà', flex: 1},
 ];
 
-const areas = [
-    {
-        code: 'B-1-A',
-        rack: 'B',
-        side: 'A',
-        zone: '1',
-        label: 'Scaff. B - Zona 1 - Lato A'
-    },
-    {
-        code: 'C-1-D',
-        rack: 'C',
-        side: 'D',
-        zone: '1',
-        label: 'Scaff. C - Zona 1 - Lato D'
-    }
-];
-
 export default function () {
     return {
         handlers: {
@@ -147,6 +130,7 @@ export default function () {
                     if (action.payload) {
                         return {
                             ...state,
+                            beep: 'PLAYING',
                             currentArea: action.payload,
                             canEnterBarcode: true
                         }
@@ -188,6 +172,14 @@ export default function () {
                         beepError: action.payload
                     }
                 }
+            },
+            getAreas_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        areas: action.payload
+                    }
+                }
             }
         },
         defaultState: {
@@ -199,7 +191,7 @@ export default function () {
             currentArea: '',
             canEnterArea: false,
             canEnterBarcode: false,
-            areas: areas,
+            areas: [],
             warehouses: [],
             pendingSaves: false,
             beep: 'STOPPED',

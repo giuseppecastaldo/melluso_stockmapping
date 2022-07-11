@@ -1,15 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import {Switch} from "@mui/material";
+import {Divider, Switch} from "@mui/material";
 import {getActions} from "../../../core";
-import { useFetching } from "../../../commons/hooks";
+import {useFetching} from "../../../commons/hooks";
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Grid from "@mui/material/Grid";
 
 const moduleName = 'barcodes_management';
 
@@ -18,31 +15,22 @@ function SeasonsTable({ seasons, getSeasons, selection, getSelection, setSelecti
     useFetching(getSelection)
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Codice</TableCell>
-                        <TableCell align="right"></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {seasons.map((season) => (
-                        <TableRow
-                            key={season}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {season}
-                            </TableCell>
-                            <TableCell align="right">
-                                <Switch onChange={ (e) => setSelection({ season: season, selected: e.target.checked }) } checked={ selection.includes(season) } />
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <Grid container spacing={1}>
+                {
+                    seasons.map((season) => (
+                        <Grid item xs={6} sm={6}>
+                            <ListItem disablePadding onClick={() => setSelection({season: season, selected: !selection.includes(season)})}>
+                                <ListItemButton>
+                                    <ListItemText primary={season}/>
+                                    <Switch onChange={(e) => setSelection({season: season, selected: e.target.checked})} checked={selection.includes(season)}/>
+                                </ListItemButton>
+                            </ListItem>
+                            <Divider/>
+                        </Grid>))
+                }
+            </Grid>
+        </>
     );
 }
 

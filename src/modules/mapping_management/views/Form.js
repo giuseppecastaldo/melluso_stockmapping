@@ -8,8 +8,9 @@ import {useFetching} from "../../../commons/hooks";
 
 const moduleName = 'mapping_management';
 
-function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses }) {
+function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses, getAreas }) {
     useFetching(getWarehouses)
+    const barcodeTextRef = React.useRef();
 
     function handleChangedArea(e, value) {
         setCurrentArea(value)
@@ -25,14 +26,24 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
     function handleBarcodeInsertion(e) {
         const value = e.target.value;
         setCurrentBarcode(value)
-
-        if (e.target.value.length === 13) {
-            addProductByBarcode(value)
-        }
     }
 
     function onChangeWarehouse(e) {
-        setSelectedWarehouse(e.target.value);
+        const value = e.target.value;
+        setSelectedWarehouse(value);
+        getAreas(value)
+    }
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            addProductByBarcode(currentBarcode)
+        }
+    }
+
+    function handleAreaKeyDown(e) {
+        if (e.key === 'Enter') {
+            barcodeTextRef.current.focus();
+        }
     }
 
     return (
@@ -40,6 +51,7 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
             <SoundFeedback/>
             <FormControl fullWidth>
                 <Select
+                    size="small"
                     autoFocus
                     displayEmpty
                     value={selectedWarehouse}
@@ -58,6 +70,8 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
                     }
                 </Select>
                 <Autocomplete
+                    size="small"
+                    autoHighlight
                     fullWidth
                     options={areas}
                     value={currentArea}
@@ -65,13 +79,16 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
                     isOptionEqualToValue={(option, value) => option.code === value}
                     onChange={handleChangedArea}
                     style={{ marginBottom: '20px'}}
-                    renderInput={(params) => <TextField onChange={handleBarcodeArea} variant="filled" {...params} label="Area" />}
+                    renderInput={(params) => <TextField onChange={handleBarcodeArea} onKeyDown={handleAreaKeyDown} variant="filled" {...params} label="Area" />}
                 />
                 <TextField fullWidth
+                           size="small"
                            label="Barcode"
                            disabled={!canEnterBarcode}
                            value={currentBarcode}
+                           inputRef={barcodeTextRef}
                            onChange={handleBarcodeInsertion}
+                           onKeyDown={handleKeyDown}
                            id="barcode"
                            style={{ marginBottom: '20px' }}
                            variant="filled"/>
@@ -85,5 +102,6 @@ export default connect(state => state[moduleName], {
     addProductByBarcode: getActions(moduleName).addProductByBarcode,
     setCurrentBarcode: getActions(moduleName).setCurrentBarcode,
     setCurrentArea: getActions(moduleName).setCurrentArea,
-    getWarehouses: getActions(moduleName).getWarehouses
+    getWarehouses: getActions(moduleName).getWarehouses,
+    getAreas: getActions(moduleName).getAreas
 })(Form)
