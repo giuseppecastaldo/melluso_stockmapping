@@ -1,7 +1,7 @@
 import {createActions, handleActions} from "redux-actions";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import promise from 'redux-promise-middleware'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import axios from "axios";
 
 const moduleList = [
@@ -68,7 +68,7 @@ const asyncDispatchMiddleware = store => next => action => {
     }
 
     const actionWithAsyncDispatch =
-        Object.assign({}, action, { asyncDispatch });
+        Object.assign({}, action, {asyncDispatch});
 
     const res = next(actionWithAsyncDispatch);
 
@@ -79,35 +79,45 @@ const asyncDispatchMiddleware = store => next => action => {
 };
 
 const loadingStateMiddleware = store => next => action => {
-    if(action.type.includes('PENDING')) {
+    if (action.type.includes('PENDING')) {
         store.dispatch(getActions('app').setLoading(true))
     }
 
-    if(action.type.includes('FULFILLED')) {
+    if (action.type.includes('FULFILLED')) {
         store.dispatch(getActions('app').setLoading(false))
     }
 
-    if(action.type.includes('REJECTED')) {
+    if (action.type.includes('REJECTED')) {
         store.dispatch(getActions('app').setLoading(false))
-        store.dispatch(getActions('app').setSnackbar({
-            severity: 'error',
-            open: true,
-            message: `Ops! Qualcosa è andato storto... riprova.`,
-            timeout: 2000
-        }))
+        try {
+            store.dispatch(getActions('app').setSnackbar({
+                severity: 'error',
+                open: true,
+                message: action.payload.response.data.message,
+                timeout: 2000
+            }))
+        } catch (e) {
+            store.dispatch(getActions('app').setSnackbar({
+                severity: 'error',
+                open: true,
+                message: `Ops! Qualcosa è andato storto... riprova.`,
+                timeout: 2000
+            }))
+        }
     }
 
     next(action);
 }
 
+
 const completeStateMiddleware = store => next => action => {
-    const actionWithCompleteState = Object.assign({}, action, { completeState : store.getState() });
+    const actionWithCompleteState = Object.assign({}, action, {completeState: store.getState()});
     next(actionWithCompleteState)
 }
 
 export const getCookieValue = (name) => (document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || '')
 
-export const api = axios.create({headers: { 'Authorization': getCookieValue('jwt_token')}});
+export const api = axios.create({headers: {'Authorization': getCookieValue('jwt_token')}});
 
 const persistedState = localStorage.getItem('appState') ? JSON.parse(localStorage.getItem('appState')) : {}
 export const store = createStore(getReducer(), persistedState, composeWithDevTools(applyMiddleware(promise, loadingStateMiddleware, completeStateMiddleware, asyncDispatchMiddleware)));

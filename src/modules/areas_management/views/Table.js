@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 const moduleName = 'areas_management'
 
-function Table({ areas, areasColumns, areasSelection, setAreasSelection, deleteSelectedAreas }) {
+function Table({ areas, areasColumns, areasSelection, setAreasSelection, deleteArea }) {
     function CustomToolbar() {
         return (
             <GridToolbarContainer sx={ {float: "right" }}>
@@ -15,7 +15,7 @@ function Table({ areas, areasColumns, areasSelection, setAreasSelection, deleteS
                 <Button
                     startIcon={<DeleteIcon />}
                     disabled={areasSelection.length === 0}
-                    onClick={deleteSelectedAreas}
+                    onClick={() => deleteArea(areas.find(area => area.code === areasSelection[0]))}
                 >
                     Elimina selezione
                 </Button>
@@ -31,7 +31,7 @@ function Table({ areas, areasColumns, areasSelection, setAreasSelection, deleteS
                   selectionModel={areasSelection}
                   onSelectionModelChange={(model) => setAreasSelection(model)}
                   getRowId={(row) => row.code}
-                  checkboxSelection={true}
+                  checkboxSelection={false}
                   components={{
                       Toolbar: CustomToolbar,
                   }}
@@ -42,5 +42,5 @@ function Table({ areas, areasColumns, areasSelection, setAreasSelection, deleteS
 
 export default connect(state => state[moduleName], {
     setAreasSelection: getActions(moduleName).setAreasSelection,
-    deleteSelectedAreas: getActions(moduleName).deleteSelectedAreas
+    deleteArea: getActions(moduleName).deleteArea
 })(Table);

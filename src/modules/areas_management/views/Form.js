@@ -9,13 +9,33 @@ import {useFetching} from "../../../commons/hooks";
 
 const moduleName = 'areas_management';
 
-function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehouse, getAreas }) {
-    useFetching(getWarehouses)
+function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehouse, getAreas, saveArea }) {
+    useFetching(() => {
+        getWarehouses();
+        setSelectedWarehouse('')
+    })
+
+    const [side, setSide] = React.useState('');
+    const [rack, setRack] = React.useState('');
+    const [zone, setZone] = React.useState('');
 
     function onChangeWarehouse(e) {
         const value = e.target.value;
         setSelectedWarehouse(value);
         getAreas(value)
+    }
+
+    function onButtonInsertClick() {
+        saveArea({
+            rack: rack,
+            side: side,
+            zone: zone,
+            store: selectedWarehouse
+        })
+
+        setSide('')
+        setRack('')
+        setZone('')
     }
 
     return (
@@ -44,6 +64,8 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                     <TextField size="small"
                                fullWidth
                                disabled={selectedWarehouse === ""}
+                               value={rack}
+                               onChange={(e) => setRack(e.target.value)}
                                label="Scaffale"
                                id="rack"
                                style={{ marginBottom: '20px' }}
@@ -52,7 +74,9 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                 <Grid item xs={3.3}>
                     <TextField size="small" fullWidth
                                label="Zona"
+                               onChange={(e) => setZone(e.target.value)}
                                disabled={selectedWarehouse === ""}
+                               value={zone}
                                id="zone"
                                style={{ marginBottom: '20px' }}
                                variant="filled"/>
@@ -61,13 +85,15 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                     <TextField size="small" fullWidth
                                label="Lato"
                                disabled={selectedWarehouse === ""}
+                               value={side}
+                               onChange={(e) => setSide(e.target.value)}
                                id="side"
                                style={{ marginBottom: '20px' }}
                                variant="filled"/>
                 </Grid>
 
                 <Grid item xs={2}>
-                    <Button size="large" disabled={selectedWarehouse === ""} startIcon={<AddIcon/>} fullWidth variant="contained">Inserisci</Button>
+                    <Button size="large" onClick={onButtonInsertClick} disabled={selectedWarehouse === ""} startIcon={<AddIcon/>} fullWidth variant="contained">Inserisci</Button>
                 </Grid>
             </Grid>
         </>
@@ -77,5 +103,6 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
 export default connect(state => state[moduleName], {
     getWarehouses: getActions(moduleName).getWarehouses,
     setSelectedWarehouse: getActions(moduleName).setSelectedWarehouse,
-    getAreas: getActions(moduleName).getAreas
+    getAreas: getActions(moduleName).getAreas,
+    saveArea: getActions(moduleName).saveArea
 })(Form)

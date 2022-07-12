@@ -9,7 +9,13 @@ import {useFetching} from "../../../commons/hooks";
 const moduleName = 'mapping_management';
 
 function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses, getAreas }) {
-    useFetching(getWarehouses)
+    useFetching(() => {
+        getWarehouses();
+
+        if (selectedWarehouse !== '') {
+            getAreas(selectedWarehouse);
+        }
+    })
     const barcodeTextRef = React.useRef();
 
     function handleChangedArea(e, value) {

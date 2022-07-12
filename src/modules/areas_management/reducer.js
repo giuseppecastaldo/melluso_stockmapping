@@ -1,3 +1,5 @@
+import {getActions} from "../../core";
+
 const areasColumns = [
     {field: 'code', headerName: 'Codice', flex: 1},
     {field: 'rack', headerName: 'Scaffale', flex: 1},
@@ -16,7 +18,7 @@ export default function () {
                     }
                 }
             },
-            deleteSelectedAreas: {
+            deleteArea_FULFILLED: {
                 next(state, action) {
                     return {
                         ...state,
@@ -34,6 +36,14 @@ export default function () {
             },
             setSelectedWarehouse: {
                 next(state, action) {
+                    if (action.payload === '') {
+                        return {
+                            ...state,
+                            selectedWarehouse: action.payload,
+                            areas: []
+                        }
+                    }
+
                     return {
                         ...state,
                         selectedWarehouse: action.payload
@@ -46,6 +56,14 @@ export default function () {
                     return {
                         ...state,
                         areas: action.payload
+                    }
+                }
+            },
+            saveArea_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        areas: [action.payload, ...state.areas]
                     }
                 }
             }
