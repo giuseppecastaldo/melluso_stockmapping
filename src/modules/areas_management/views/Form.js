@@ -39,7 +39,7 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
     }
 
     return (
-        <>
+        <form>
             <Select
                 size="small"
                 autoFocus
@@ -75,7 +75,7 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                     <TextField size="small" fullWidth
                                label="Zona"
                                onChange={(e) => setZone(e.target.value)}
-                               disabled={selectedWarehouse === ""}
+                               disabled={selectedWarehouse === "" || rack === ''}
                                value={zone}
                                id="zone"
                                style={{ marginBottom: '20px' }}
@@ -83,8 +83,9 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                 </Grid>
                 <Grid item xs={3.3}>
                     <TextField size="small" fullWidth
+                               required={true}
                                label="Lato"
-                               disabled={selectedWarehouse === ""}
+                               disabled={selectedWarehouse === "" || zone === ''}
                                value={side}
                                onChange={(e) => setSide(e.target.value)}
                                id="side"
@@ -93,10 +94,10 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                 </Grid>
 
                 <Grid item xs={2}>
-                    <Button size="large" onClick={onButtonInsertClick} disabled={selectedWarehouse === ""} startIcon={<AddIcon/>} fullWidth variant="contained">Inserisci</Button>
+                    <Button size="large" onClick={onButtonInsertClick} disabled={selectedWarehouse === "" || side === ''} startIcon={<AddIcon/>} fullWidth variant="contained">Inserisci</Button>
                 </Grid>
             </Grid>
-        </>
+        </form>
     )
 }
 

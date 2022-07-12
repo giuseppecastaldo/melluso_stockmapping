@@ -8,6 +8,7 @@ import {getActions, getModules} from "./core";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import {connect} from "react-redux";
+import Error401 from "./Error401";
 
 function App({ loading, currentTab, setTab }) {
 
@@ -21,6 +22,7 @@ function App({ loading, currentTab, setTab }) {
             <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={ loading }>
                 <CircularProgress color="inherit" />
             </Backdrop>
+            <Error401/>
             <Header/>
             <TabContext value={currentTab}>
                 <TabList onChange={handleChangePage} variant="scrollable" >

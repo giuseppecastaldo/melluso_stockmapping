@@ -1,5 +1,3 @@
-import {getActions} from "../../core";
-
 const areasColumns = [
     {field: 'code', headerName: 'Codice', flex: 1},
     {field: 'rack', headerName: 'Scaffale', flex: 1},

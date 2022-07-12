@@ -29,6 +29,14 @@ export default function () {
                         currentTab: action.payload
                     }
                 }
+            },
+            setTokenExpired: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        tokenExpired: action.payload
+                    }
+                }
             }
         },
         defaultState: {
@@ -39,7 +47,8 @@ export default function () {
                 message: '',
                 timeout: 0
             },
-            currentTab: 'mapping_management'
+            currentTab: 'mapping_management',
+            tokenExpired: false
         },
     }
 }

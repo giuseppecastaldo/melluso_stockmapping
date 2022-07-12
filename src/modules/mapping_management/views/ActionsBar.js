@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import Confirm from "../../../commons/components/ConfirmDialog";
 
-function ActionsBar({pendingSaves, discardSaves}) {
+function ActionsBar({ pendingSaves, discardSaves, rows }) {
     return (
         <>
             <Box sx={{ marginBottom: '20px', padding: 0 }}>
@@ -17,14 +17,14 @@ function ActionsBar({pendingSaves, discardSaves}) {
 
                     <Confirm message="Conferma" description="Sei sicuro/a di voler procedere al salvataggio dei dati?"
                              confirmAction={discardSaves}>
-                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves}
+                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves || rows.length === 0}
                                 startIcon={<SaveIcon/>} color="inherit">Salva modifiche</Button>
                     </Confirm>
 
                     <Confirm message="Conferma"
                              description="Sei sicuro/a di voler procedere? Perderai i progressi fatti fino ad ora."
                              confirmAction={discardSaves}>
-                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves}
+                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves || rows.length === 0}
                                 startIcon={<CloseIcon/>} color="inherit">Scarta modifiche</Button>
                     </Confirm>
                 </Toolbar>
@@ -35,7 +35,8 @@ function ActionsBar({pendingSaves, discardSaves}) {
 
 export default connect((state) => {
     return {
-        pendingSaves: state['mapping_management'].pendingSaves
+        pendingSaves: state['mapping_management'].pendingSaves,
+        rows: state['mapping_management'].rows
     }
 }, {
     discardSaves: getActions('mapping_management').discardSaves,

@@ -1,7 +1,7 @@
 import {getActions} from "../../core";
 
 const columns = [
-    {field: 'id', headerName: 'Barcode', flex: 1},
+    {field: 'barcode', headerName: 'Barcode', flex: 1},
     {field: 'product', headerName: 'Prodotto', flex: 1},
     {field: 'variation', headerName: 'Variante', flex: 1},
     {field: 'size', headerName: 'Taglia', flex: 1},
@@ -32,7 +32,7 @@ export default function () {
                     return {
                         ...state,
                         rows: state.rows.map((row) => {
-                            if (state.selection.includes(row.id)) {
+                            if (state.selection.includes(row.barcode)) {
                                 return {...row, qty: row.qty + 1}
                             }
                             return row;
@@ -46,7 +46,7 @@ export default function () {
                     return {
                         ...state,
                         rows: state.rows.map((row) => {
-                            if (state.selection.includes(row.id)) {
+                            if (state.selection.includes(row.barcode)) {
                                 return {...row, qty: (row.qty > 0) ? row.qty - 1 : 0}
                             }
                             return row;
@@ -59,7 +59,7 @@ export default function () {
                 next(state, action) {
                     return {
                         ...state,
-                        rows: state.rows.filter((row) => !state.selection.includes(row.id)),
+                        rows: state.rows.filter((row) => !state.selection.includes(row.barcode)),
                         pendingSaves: true
                     }
                 }
@@ -87,14 +87,15 @@ export default function () {
                             beep: 'PLAYING',
                             pendingSaves: true,
                             last_scanned: action.payload,
-                            rows: !state.rows.some(r => r.id === action.payload.barcode) ? [...state.rows, {
-                                id: action.payload.barcode,
+                            rows: !state.rows.some(r => r.barcode === action.payload.barcode) ? [...state.rows, {
+                                barcode: action.payload.barcode,
                                 product: action.payload.product,
                                 variation: action.payload.variation,
                                 size: action.payload.size,
-                                qty: 1
+                                qty: 1,
+                                area: state.currentArea
                             }] : state.rows.map((row) => {
-                                if (row.id === action.payload.barcode) {
+                                if (row.barcode === action.payload.barcode) {
                                     return {...row, qty: row.qty + 1}
                                 }
                                 return row;

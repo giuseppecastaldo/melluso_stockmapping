@@ -79,6 +79,7 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
                     size="small"
                     autoHighlight
                     fullWidth
+                    noOptionsText="Non sono presenti aree"
                     options={areas}
                     value={currentArea}
                     disabled={!canEnterArea || pendingSaves}

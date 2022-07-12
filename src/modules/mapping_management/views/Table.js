@@ -48,6 +48,7 @@ function Table({rows, columns, selection, setRowsSelection, incrementQty, decrem
                       localeText={itIT.components.MuiDataGrid.defaultProps.localeText}
                       density="compact"
                       rows={rows}
+                      getRowId={(row) => row.barcode}
                       checkboxSelection={true}
                       selectionModel={selection}
                       onSelectionModelChange={(ids) => {
