@@ -6,3 +6,11 @@ export async function getWarehouses() {
     return (await api.get(`${base_url}/stockmapping/warehouses`)).data
 }
 
+export async function saveBarcodes(barcodes) {
+    return (await api.post(`${base_url}/stockmapping/map/save`, barcodes)).data
+}
+
+export async function getBarcodes(area) {
+    return (await api.post(`${base_url}/stockmapping/map`, area)).data
+}
+

@@ -8,7 +8,7 @@ import {useFetching} from "../../../commons/hooks";
 
 const moduleName = 'mapping_management';
 
-function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses, getAreas }) {
+function Form({ fillRows, selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses, getAreas }) {
     useFetching(() => {
         getWarehouses();
 
@@ -19,13 +19,17 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
     const barcodeTextRef = React.useRef();
 
     function handleChangedArea(e, value) {
-        setCurrentArea(value)
+        setCurrentArea(value);
+        if (value) {
+            fillRows(value);
+        }
     }
 
     function handleBarcodeArea(e) {
         const area = areas.find((area) => area.code === e.target.value)
         if (area) {
             setCurrentArea(area);
+            fillRows(area);
         }
     }
 
@@ -38,6 +42,7 @@ function Form({ selectedWarehouse, setSelectedWarehouse, addProductByBarcode, se
         const value = e.target.value;
         setSelectedWarehouse(value);
         getAreas(value)
+        setCurrentArea(null);
     }
 
     function handleKeyDown(e) {
@@ -110,5 +115,6 @@ export default connect(state => state[moduleName], {
     setCurrentBarcode: getActions(moduleName).setCurrentBarcode,
     setCurrentArea: getActions(moduleName).setCurrentArea,
     getWarehouses: getActions(moduleName).getWarehouses,
-    getAreas: getActions(moduleName).getAreas
+    getAreas: getActions(moduleName).getAreas,
+    fillRows: getActions(moduleName).fillRows
 })(Form)

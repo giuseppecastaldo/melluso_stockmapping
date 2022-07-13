@@ -1,10 +1,12 @@
 import {db} from "../../db";
-import {getWarehouses} from "./api";
+import {getBarcodes, getWarehouses, saveBarcodes} from "./api";
 import {getAreas} from "../areas_management/api";
 
 export default function () {
     return {
         discardSaves: (payload) => payload,
+        saveProgress: (barcodes) => saveBarcodes(barcodes),
+        fillRows: (area) => getBarcodes(area),
         setCurrentBarcode: (payload) => payload,
         setCurrentArea: (payload) => payload,
         setSelectedWarehouse: (payload) => payload,

@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import Confirm from "../../../commons/components/ConfirmDialog";
 
-function ActionsBar({ pendingSaves, discardSaves, rows }) {
+function ActionsBar({ pendingSaves, discardSaves, rows, saveProgress }) {
     return (
         <>
             <Box sx={{ marginBottom: '20px', padding: 0 }}>
@@ -16,7 +16,7 @@ function ActionsBar({ pendingSaves, discardSaves, rows }) {
                     <Box sx={{flexGrow: 1}}/>
 
                     <Confirm message="Conferma" description="Sei sicuro/a di voler procedere al salvataggio dei dati?"
-                             confirmAction={discardSaves}>
+                             confirmAction={() => saveProgress(rows)}>
                         <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves || rows.length === 0}
                                 startIcon={<SaveIcon/>} color="inherit">Salva modifiche</Button>
                     </Confirm>
@@ -24,7 +24,7 @@ function ActionsBar({ pendingSaves, discardSaves, rows }) {
                     <Confirm message="Conferma"
                              description="Sei sicuro/a di voler procedere? Perderai i progressi fatti fino ad ora."
                              confirmAction={discardSaves}>
-                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves || rows.length === 0}
+                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves}
                                 startIcon={<CloseIcon/>} color="inherit">Scarta modifiche</Button>
                     </Confirm>
                 </Toolbar>
@@ -40,4 +40,5 @@ export default connect((state) => {
     }
 }, {
     discardSaves: getActions('mapping_management').discardSaves,
+    saveProgress: getActions('mapping_management').saveProgress
 })(ActionsBar);

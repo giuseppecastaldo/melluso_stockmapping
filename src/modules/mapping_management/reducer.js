@@ -140,9 +140,31 @@ export default function () {
                     return {
                         ...state,
                         currentArea: action.payload,
-                        canEnterBarcode: false
+                        canEnterBarcode: false,
+                        rows: []
                     }
 
+                }
+            },
+            fillRows_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        rows: action.payload
+                    }
+                }
+            },
+            saveProgress_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        rows: [],
+                        pendingSaves: false,
+                        selectedWarehouse: "",
+                        currentArea: null,
+                        canEnterBarcode: false,
+                        canEnterArea: false
+                    }
                 }
             },
             discardSaves: {

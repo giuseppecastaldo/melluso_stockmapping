@@ -3,11 +3,10 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import AppBar from "@mui/material/AppBar";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import OutboxIcon from '@mui/icons-material/Outbox';
 import Box from "@mui/material/Box";
 import {connect} from "react-redux";
 import {Snackbar} from "@mui/material";
-import {Alert} from "@mui/lab";
+import {Alert} from "@mui/material";
 import {getActions} from "./core";
 
 function Header({ snackbar, setSnackbar, discardSaves }) {

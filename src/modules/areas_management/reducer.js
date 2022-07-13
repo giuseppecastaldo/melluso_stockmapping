@@ -61,7 +61,7 @@ export default function () {
                 next(state, action) {
                     return {
                         ...state,
-                        areas: [action.payload, ...state.areas]
+                        areas: [action.payload.entity, ...state.areas]
                     }
                 }
             }
