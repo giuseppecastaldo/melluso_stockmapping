@@ -14,3 +14,11 @@ export async function getBarcodes(area) {
     return (await api.post(`${base_url}/stockmapping/map`, area)).data
 }
 
+export async function getMappingPercentage(store) {
+    return (await api.get(`${base_url}/stockmapping/map/percentage/${store}`)).data
+}
+
+export async function clearMap(store) {
+    return (await api.delete(`${base_url}/stockmapping/map/${store}`)).data
+}
+

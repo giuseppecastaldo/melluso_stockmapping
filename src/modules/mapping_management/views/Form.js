@@ -8,12 +8,13 @@ import {useFetching} from "../../../commons/hooks";
 
 const moduleName = 'mapping_management';
 
-function Form({ fillRows, selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses, getAreas }) {
+function Form({ fillRows, getPercentage, selectedWarehouse, setSelectedWarehouse, addProductByBarcode, setCurrentBarcode, currentBarcode, currentArea, setCurrentArea, canEnterArea, canEnterBarcode, areas, warehouses, pendingSaves, getWarehouses, getAreas }) {
     useFetching(() => {
         getWarehouses();
 
         if (selectedWarehouse !== '') {
             getAreas(selectedWarehouse);
+            getPercentage(selectedWarehouse);
         }
     })
     const barcodeTextRef = React.useRef();
@@ -41,8 +42,9 @@ function Form({ fillRows, selectedWarehouse, setSelectedWarehouse, addProductByB
     function onChangeWarehouse(e) {
         const value = e.target.value;
         setSelectedWarehouse(value);
-        getAreas(value)
+        getAreas(value);
         setCurrentArea(null);
+        getPercentage(value);
     }
 
     function handleKeyDown(e) {
@@ -116,5 +118,6 @@ export default connect(state => state[moduleName], {
     setCurrentArea: getActions(moduleName).setCurrentArea,
     getWarehouses: getActions(moduleName).getWarehouses,
     getAreas: getActions(moduleName).getAreas,
-    fillRows: getActions(moduleName).fillRows
+    fillRows: getActions(moduleName).fillRows,
+    getPercentage: getActions(moduleName).getPercentage
 })(Form)

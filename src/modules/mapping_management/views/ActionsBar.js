@@ -8,17 +8,28 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import Confirm from "../../../commons/components/ConfirmDialog";
 
-function ActionsBar({ pendingSaves, discardSaves, rows, saveProgress }) {
+function ActionsBar({ deleteMap, pendingSaves, discardSaves, rows, saveProgress, selectedWarehouse, getPercentage }) {
+    function saveProgressHandler() {
+        saveProgress(rows);
+        getPercentage(selectedWarehouse);
+    }
+
+    function deleteMapHandler() {
+        getPercentage(selectedWarehouse);
+        deleteMap(selectedWarehouse);
+    }
+
     return (
         <>
             <Box sx={{ marginBottom: '20px', padding: 0 }}>
                 <Toolbar variant="dense" style={{ padding: 0 }}>
                     <Box sx={{flexGrow: 1}}/>
 
-                    <Confirm message="Conferma" description="Sei sicuro/a di voler procedere al salvataggio dei dati?"
-                             confirmAction={() => saveProgress(rows)}>
-                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves || rows.length === 0}
-                                startIcon={<SaveIcon/>} color="inherit">Salva modifiche</Button>
+                    <Confirm message="Conferma"
+                             description="Sei sicuro/a di voler procedere? Perderai tutti i dati associati al negozio."
+                             confirmAction={deleteMapHandler}>
+                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={selectedWarehouse === ''}
+                                startIcon={<CloseIcon/>}>Elimina mappatura</Button>
                     </Confirm>
 
                     <Confirm message="Conferma"
@@ -26,6 +37,12 @@ function ActionsBar({ pendingSaves, discardSaves, rows, saveProgress }) {
                              confirmAction={discardSaves}>
                         <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves}
                                 startIcon={<CloseIcon/>} color="inherit">Scarta modifiche</Button>
+                    </Confirm>
+
+                    <Confirm message="Conferma" description="Sei sicuro/a di voler procedere al salvataggio dei dati?"
+                             confirmAction={saveProgressHandler}>
+                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves || rows.length === 0}
+                                startIcon={<SaveIcon/>} color="inherit">Salva modifiche</Button>
                     </Confirm>
                 </Toolbar>
             </Box>
@@ -36,9 +53,12 @@ function ActionsBar({ pendingSaves, discardSaves, rows, saveProgress }) {
 export default connect((state) => {
     return {
         pendingSaves: state['mapping_management'].pendingSaves,
-        rows: state['mapping_management'].rows
+        rows: state['mapping_management'].rows,
+        selectedWarehouse: state['mapping_management'].selectedWarehouse
     }
 }, {
     discardSaves: getActions('mapping_management').discardSaves,
-    saveProgress: getActions('mapping_management').saveProgress
+    saveProgress: getActions('mapping_management').saveProgress,
+    getPercentage: getActions('mapping_management').getPercentage,
+    deleteMap: getActions('mapping_management').deleteMap
 })(ActionsBar);

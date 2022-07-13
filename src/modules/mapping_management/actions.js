@@ -1,5 +1,5 @@
 import {db} from "../../db";
-import {getBarcodes, getWarehouses, saveBarcodes} from "./api";
+import {clearMap, getBarcodes, getMappingPercentage, getWarehouses, saveBarcodes} from "./api";
 import {getAreas} from "../areas_management/api";
 
 export default function () {
@@ -18,6 +18,8 @@ export default function () {
         playStopBeepError: (payload) => payload,
         addProductByBarcode: barcode => db.barcodes.get(barcode),
         getWarehouses: () => getWarehouses(),
-        getAreas: (store) => getAreas(store)
+        getAreas: (store) => getAreas(store),
+        getPercentage: (store) => getMappingPercentage(store),
+        deleteMap: (store) => clearMap(store)
     }
 }

@@ -160,10 +160,21 @@ export default function () {
                         ...state,
                         rows: [],
                         pendingSaves: false,
-                        selectedWarehouse: "",
                         currentArea: null,
                         canEnterBarcode: false,
-                        canEnterArea: false
+                        canEnterArea: true
+                    }
+                }
+            },
+            deleteMap_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        rows: [],
+                        pendingSaves: false,
+                        currentArea: null,
+                        canEnterBarcode: false,
+                        canEnterArea: true
                     }
                 }
             },
@@ -173,10 +184,9 @@ export default function () {
                         ...state,
                         rows: [],
                         pendingSaves: false,
-                        selectedWarehouse: "",
                         currentArea: null,
                         canEnterBarcode: false,
-                        canEnterArea: false
+                        canEnterArea: true
                     }
                 }
             },
@@ -203,6 +213,14 @@ export default function () {
                         areas: action.payload
                     }
                 }
+            },
+            getPercentage_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        percentage: action.payload
+                    }
+                }
             }
         },
         defaultState: {
@@ -218,7 +236,8 @@ export default function () {
             warehouses: [],
             pendingSaves: false,
             beep: 'STOPPED',
-            beepError: 'STOPPED'
+            beepError: 'STOPPED',
+            percentage: 0.0
         }
     }
 }

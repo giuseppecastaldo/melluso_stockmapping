@@ -86,18 +86,21 @@ const loadingStateMiddleware = store => next => action => {
     if (action.type.includes('FULFILLED')) {
         store.dispatch(getActions('app').setLoading(false))
         store.dispatch(getActions('app').setTokenExpired(false))
-        if (action.payload.hasOwnProperty('severity')) {
-            store.dispatch(getActions('app').setSnackbar({
-                severity: action.payload.severity,
-                open: true,
-                message: action.payload.message,
-                timeout: 2000
-            }))
-        }
+        try {
+            if (action.payload.hasOwnProperty('severity')) {
+                store.dispatch(getActions('app').setSnackbar({
+                    severity: action.payload.severity,
+                    open: true,
+                    message: action.payload.message,
+                    timeout: 2000
+                }))
+            }
+        } catch (e) { }
     }
 
     if (action.type.includes('REJECTED')) {
         store.dispatch(getActions('app').setLoading(false))
+        console.log(action);
         if (action.payload.response.status === 401) {
             store.dispatch(getActions('app').setTokenExpired(true))
         } else {

@@ -11,6 +11,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {connect} from "react-redux";
 import {getActions} from "../../../core";
+import ProgressBar from "./ProgressBar";
 
 function Table({rows, columns, selection, setRowsSelection, incrementQty, decrementQty, deleteSelectedRows}) {
     function CustomToolbar() {
@@ -44,6 +45,8 @@ function Table({rows, columns, selection, setRowsSelection, incrementQty, decrem
 
     return (
         <>
+            <ProgressBar/>
+            <br/>
             <DataGrid autoHeight
                       localeText={itIT.components.MuiDataGrid.defaultProps.localeText}
                       density="compact"
