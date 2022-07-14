@@ -11,11 +11,15 @@ import Confirm from "../../../commons/components/ConfirmDialog";
 function ActionsBar({ deleteMap, pendingSaves, discardSaves, rows, saveProgress, selectedWarehouse, getPercentage }) {
     function saveProgressHandler() {
         saveProgress(rows);
-        getPercentage(selectedWarehouse);
+        setTimeout(() => {
+            getPercentage(selectedWarehouse);
+        }, 1000)
     }
 
     function deleteMapHandler() {
-        getPercentage(selectedWarehouse);
+        setTimeout(() => {
+            getPercentage(selectedWarehouse);
+        }, 1000)
         deleteMap(selectedWarehouse);
     }
 

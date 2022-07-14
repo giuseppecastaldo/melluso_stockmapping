@@ -9,7 +9,7 @@ import {useFetching} from "../../../commons/hooks";
 
 const moduleName = 'areas_management';
 
-function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehouse, getAreas, saveArea }) {
+function Form({getWarehouses, warehouses, selectedWarehouse, setSelectedWarehouse, getAreas, saveArea}) {
     useFetching(() => {
         getWarehouses();
         setSelectedWarehouse('')
@@ -47,7 +47,7 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                 displayEmpty
                 value={selectedWarehouse}
                 onChange={onChangeWarehouse}
-                style={{ marginBottom: '20px' }}
+                style={{marginBottom: '20px'}}
                 variant="outlined"
             >
                 <MenuItem disabled value="">
@@ -55,11 +55,12 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                 </MenuItem>
                 {
                     warehouses.map((warehouse) => {
-                        return <MenuItem key={warehouse.code} value={warehouse.code}>{warehouse.code} - {warehouse.description}</MenuItem>
+                        return <MenuItem key={warehouse.code}
+                                         value={warehouse.code}>{warehouse.code} - {warehouse.description}</MenuItem>
                     })
                 }
             </Select>
-            <Grid container sx={{ flexGrow: 1 }} spacing={1}>
+            <Grid container sx={{flexGrow: 1}} spacing={1}>
                 <Grid item xs={3.3}>
                     <TextField size="small"
                                fullWidth
@@ -68,33 +69,39 @@ function Form({ getWarehouses, warehouses, selectedWarehouse, setSelectedWarehou
                                onChange={(e) => setRack(e.target.value)}
                                label="Scaffale"
                                id="rack"
-                               style={{ marginBottom: '20px' }}
+                               style={{marginBottom: '20px'}}
                                variant="filled"/>
                 </Grid>
                 <Grid item xs={3.3}>
-                    <TextField size="small" fullWidth
+                    <TextField size="small"
+                               fullWidth
                                label="Zona"
                                onChange={(e) => setZone(e.target.value)}
                                disabled={selectedWarehouse === "" || rack === ''}
                                value={zone}
                                id="zone"
-                               style={{ marginBottom: '20px' }}
+                               style={{marginBottom: '20px'}}
                                variant="filled"/>
                 </Grid>
                 <Grid item xs={3.3}>
-                    <TextField size="small" fullWidth
-                               required={true}
+                    <TextField size="small"
+                               fullWidth
                                label="Lato"
                                disabled={selectedWarehouse === "" || zone === ''}
                                value={side}
                                onChange={(e) => setSide(e.target.value)}
                                id="side"
-                               style={{ marginBottom: '20px' }}
+                               style={{marginBottom: '20px'}}
                                variant="filled"/>
                 </Grid>
 
                 <Grid item xs={2}>
-                    <Button size="large" onClick={onButtonInsertClick} disabled={selectedWarehouse === "" || side === ''} startIcon={<AddIcon/>} fullWidth variant="contained">Inserisci</Button>
+                    <Button size="large"
+                            onClick={onButtonInsertClick}
+                            disabled={selectedWarehouse === "" || side === ''}
+                            startIcon={<AddIcon/>}
+                            fullWidth
+                            variant="contained">Inserisci</Button>
                 </Grid>
             </Grid>
         </form>
