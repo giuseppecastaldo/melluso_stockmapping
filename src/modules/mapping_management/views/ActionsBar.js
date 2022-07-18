@@ -8,9 +8,12 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import Confirm from "../../../commons/components/ConfirmDialog";
 
-function ActionsBar({ deleteMap, pendingSaves, discardSaves, rows, saveProgress, selectedWarehouse, getPercentage }) {
+function ActionsBar({ deleteMap, currentArea, pendingSaves, discardSaves, rows, saveProgress, selectedWarehouse, getPercentage }) {
     function saveProgressHandler() {
-        saveProgress(rows);
+        saveProgress({
+            area: currentArea,
+            barcodes: rows
+        });
         setTimeout(() => {
             getPercentage(selectedWarehouse);
         }, 1000)
@@ -45,7 +48,7 @@ function ActionsBar({ deleteMap, pendingSaves, discardSaves, rows, saveProgress,
 
                     <Confirm message="Conferma" description="Sei sicuro/a di voler procedere al salvataggio dei dati?"
                              confirmAction={saveProgressHandler}>
-                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves || rows.length === 0}
+                        <Button variant="contained" sx={{marginLeft: '20px'}} disabled={!pendingSaves}
                                 startIcon={<SaveIcon/>} color="inherit">Salva modifiche</Button>
                     </Confirm>
                 </Toolbar>
@@ -58,7 +61,8 @@ export default connect((state) => {
     return {
         pendingSaves: state['mapping_management'].pendingSaves,
         rows: state['mapping_management'].rows,
-        selectedWarehouse: state['mapping_management'].selectedWarehouse
+        selectedWarehouse: state['mapping_management'].selectedWarehouse,
+        currentArea: state['mapping_management'].currentArea
     }
 }, {
     discardSaves: getActions('mapping_management').discardSaves,

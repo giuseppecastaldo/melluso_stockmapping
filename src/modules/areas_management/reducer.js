@@ -1,5 +1,6 @@
 const areasColumns = [
     {field: 'code', headerName: 'Codice', flex: 1},
+    {field: 'warehouse', headerName: 'Magazzino', flex: 1},
     {field: 'rack', headerName: 'Scaffale', flex: 1},
     {field: 'zone', headerName: 'Zona', flex: 1},
     {field: 'side', headerName: 'Lato', flex: 1}
@@ -62,6 +63,14 @@ export default function () {
                     return {
                         ...state,
                         areas: [action.payload.entity, ...state.areas]
+                    }
+                }
+            },
+            generateAreas_FULFILLED: {
+                next(state, action) {
+                    return {
+                        ...state,
+                        areas: state.areas.concat(action.payload.entity)
                     }
                 }
             }

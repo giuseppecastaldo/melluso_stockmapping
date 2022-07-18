@@ -95,7 +95,8 @@ const loadingStateMiddleware = store => next => action => {
                     timeout: 2000
                 }))
             }
-        } catch (e) { }
+        } catch (e) {
+        }
     }
 
     if (action.type.includes('REJECTED')) {
@@ -126,7 +127,10 @@ export const getCookieValue = (name) => (document.cookie.match('(^|;)\\s*' + nam
 export const api = axios.create({headers: {'Authorization': getCookieValue('jwt_token')}});
 
 const persistedState = localStorage.getItem('appState') ? JSON.parse(localStorage.getItem('appState')) : {}
-export const store = createStore(getReducer(), persistedState, composeWithDevTools(applyMiddleware(promise, loadingStateMiddleware, completeStateMiddleware, asyncDispatchMiddleware)));
+
+const middlewares = applyMiddleware(promise, loadingStateMiddleware, completeStateMiddleware, asyncDispatchMiddleware)
+
+export const store = createStore(getReducer(), persistedState, (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? composeWithDevTools(middlewares) : middlewares);
 
 store.subscribe(() => {
     localStorage.setItem('appState', JSON.stringify(store.getState()))
