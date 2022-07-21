@@ -34,7 +34,7 @@ function ActionsBar({ deleteMap, currentArea, pendingSaves, discardSaves, rows, 
 
                     <Confirm message="Conferma"
                              description="Sei sicuro/a di voler procedere? Perderai tutti i dati associati al negozio."
-                             confirmAction={deleteMapHandler}>
+                             confirmAction={deleteMapHandler} passphrase="elimina mappatura">
                         <Button variant="contained" sx={{marginLeft: '20px'}} disabled={selectedWarehouse === ''}
                                 startIcon={<CloseIcon/>}>Elimina mappatura</Button>
                     </Confirm>
